@@ -26,6 +26,6 @@ public class PatchConfig {
         this.originalSignature = originalSignature;
         this.appComponentFactory = appComponentFactory;
         this.lspConfig = LSPConfig.instance;
-        this.managerPackageName = Constants.MANAGER_PACKAGE_NAME;
+        this.managerPackageName = Constants.org.lsposed.lspatch;
     }
 }
