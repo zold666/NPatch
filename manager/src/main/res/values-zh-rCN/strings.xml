@@ -23,7 +23,7 @@
     <string name="home_device">设备信息</string>
     <string name="home_system_abi">系统架构</string>
     <string name="home_info_copied">已复制到剪贴板</string>
-    <string name="home_support">支持</string>
+    <string name="home_support">关于</string>
     <string name="home_description">NPatch 是一款免费的复刻于 LSPatch 的，基于 LSPosed 核心的免 Root 的 Xposed 框架。</string>
     <string name="home_view_source_code"><![CDATA[查看源代码 %1$s<br/>加入我们的 %2$s 频道]]></string>
     <!-- Manage Screen -->
@@ -50,11 +50,11 @@
     <string name="patch_select_dir_error">设置存储目录时出错</string>
     <string name="patch_from_storage">从存储目录中选择（多个）apk</string>
     <string name="patch_from_applist">选择已安装的应用程序</string>
-    <string name="patch_mode">修补模式</string>
+    <string name="patch_mode">选择修补模式</string>
     <string name="patch_local">本地模式</string>
     <string name="patch_local_desc">为未嵌入模块的应用程序打补丁。\nXposed 范围可动态更改，无需重新打补丁。\n打了本地补丁的应用程序只能在本地设备上运行。</string>
-    <string name="patch_integrated">集成模式</string>
-    <string name="patch_integrated_desc">修补 App 并内置模块。\n经修补的应用可以在没有管理器的情况下运行，但不能动态管理配置。\n以集成模式修补的应用可在未安装 NPatch 管理器的设备上运行。</string>
+    <string name="patch_integrated">内置模式</string>
+    <string name="patch_integrated_desc">修补 App 并内置模块。\n经修补的应用可以在没有管理器的情况下运行，但不能动态管理配置。\n以内置模式修补的应用可在未安装 NPatch 管理器的设备上运行。</string>
     <string name="patch_embed_modules">嵌入模块</string>
     <string name="patch_debuggable">可调试</string>
     <string name="patch_inject_mt_provider">注入文件提供器</string>
@@ -75,17 +75,17 @@
     <string name="screen_select_apps">选择应用程序</string>
     <!-- Settings Screen -->
     <string name="screen_settings">设置</string>
-    <string name="settings_keystore">签名密钥库</string>
-    <string name="settings_keystore_default">内置</string>
+    <string name="settings_keystore">签名文件</string>
+    <string name="settings_keystore_default">内置签名</string>
     <string name="settings_keystore_custom">自定义</string>
-    <string name="settings_keystore_dialog_title">自定义密钥库</string>
-    <string name="settings_keystore_file">密钥库文件</string>
+    <string name="settings_keystore_dialog_title">自定义签名</string>
+    <string name="settings_keystore_file">签名文件</string>
     <string name="settings_keystore_password">密码</string>
     <string name="settings_keystore_alias">别名</string>
     <string name="settings_keystore_alias_password">别名密码</string>
-    <string name="settings_keystore_desc">设置密钥库（BKS）</string>
-    <string name="settings_keystore_wrong_keystore">密钥库类型错误</string>
-    <string name="settings_keystore_wrong_password">密钥库密码错误</string>
+    <string name="settings_keystore_desc">设置答名名（BKS）</string>
+    <string name="settings_keystore_wrong_keystore">签名类型错误</string>
+    <string name="settings_keystore_wrong_password">签名密码错误</string>
     <string name="settings_keystore_wrong_alias">别名错误</string>
     <string name="settings_keystore_wrong_alias_password">别名密码错误</string>
     <string name="settings_detail_patch_logs">详细修补日志</string>
