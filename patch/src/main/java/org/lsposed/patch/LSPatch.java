@@ -154,7 +154,7 @@ public class LSPatch {
             outputDir.mkdirs();
 
             File outputFile = new File(outputDir, String.format(
-                    Locale.getDefault(), "%s-%d-lspatched.apk",
+                    Locale.getDefault(), "%s-%d-npatched.apk",
                     FilenameUtils.getBaseName(apkFileName),
                     LSPConfig.instance.VERSION_CODE)
             ).getAbsoluteFile();
@@ -230,6 +230,18 @@ public class LSPatch {
                 minSdkVersion = pair.minSdkVersion;
                 logger.d("original appComponentFactory class: " + appComponentFactory);
                 logger.d("original minSdkVersion: " + minSdkVersion);
+            }
+
+            final boolean skipSplit = apkPaths.size() > 1 && srcApkFile.getName().startsWith("split_") && appComponentFactory == null;
+            if (skipSplit) {
+                logger.i("Packing split apk...");
+                for (StoredEntry entry : srcZFile.entries()) {
+                    String name = entry.getCentralDirectoryHeader().getName();
+                    if (dstZFile.get(name) != null) continue;
+                    if (name.startsWith("META-INF") && (name.endsWith(".SF") || name.endsWith(".MF") || name.endsWith(".RSA"))) continue;
+                    srcZFile.addFileLink(name, name);
+                }
+                return;
             }
 
             logger.i("Patching apk...");
