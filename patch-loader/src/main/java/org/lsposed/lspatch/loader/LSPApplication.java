@@ -90,7 +90,7 @@ public class LSPApplication {
         // WARN: Since it uses `XResource`, the following class should not be initialized
         // before forkPostCommon is invoke. Otherwise, you will get failure of XResources
         Log.i(TAG, "Load modules");
-	        LSPLoader.initLegacyModules(appLoadedApk);
+        LSPLoader.initLegacyModules(appLoadedApk);
 //        LSPLoader.initModules(appLoadedApk);
         Log.i(TAG, "Modules initialized");
 
@@ -166,14 +166,14 @@ public class LSPApplication {
             Log.i(TAG, "hooked app initialized: " + appLoadedApk);
 
             var context = (Context) XposedHelpers.callStaticMethod(Class.forName("android.app.ContextImpl"), "createAppContext", activityThread, stubLoadedApk);
-//            if (config.appComponentFactory != null) {
-//                try {
-//                    context.getClassLoader().loadClass(config.appComponentFactory);
-//                } catch (ClassNotFoundException e) { // This will happen on some strange shells like 360
-//                    Log.w(TAG, "Original AppComponentFactory not found: " + config.appComponentFactory);
-//                    appInfo.appComponentFactory = null;
-//                }
-//            }
+            if (config.appComponentFactory != null) {
+                try {
+                    context.getClassLoader().loadClass(config.appComponentFactory);
+                } catch (ClassNotFoundException e) { // This will happen on some strange shells like 360
+                    Log.w(TAG, "Original AppComponentFactory not found: " + config.appComponentFactory);
+                    appInfo.appComponentFactory = null;
+                }
+            }
             return context;
         } catch (Throwable e) {
             Log.e(TAG, "createLoadedApk", e);
