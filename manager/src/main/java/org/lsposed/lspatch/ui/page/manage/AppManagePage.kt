@@ -38,9 +38,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
+import io.github.duzhaokun123.lspatch.BuildConfig
+import io.github.duzhaokun123.lspatch.R
 import kotlinx.coroutines.launch
-import org.lsposed.lspatch.BuildConfig
-import org.lsposed.lspatch.R
 import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.database.entity.Module
@@ -87,7 +87,7 @@ fun AppManageBody(
         }
     } else {
         var scopeApp by rememberSaveable { mutableStateOf("") }
-	        var afterCheckManager by remember { mutableStateOf<(() -> Unit)?>(null) }
+        var afterCheckManager by remember { mutableStateOf<(() -> Unit)?>(null) }
         resultRecipient.onNavResult {
             if (it is NavResult.Value) {
                 scope.launch {
@@ -138,6 +138,39 @@ fun AppManageBody(
                 }
             }
         }
+        if (afterCheckManager != null) {
+            AlertDialog(
+                onDismissRequest = { afterCheckManager = null },
+                confirmButton = {
+                    TextButton(
+                        content = { Text(stringResource(android.R.string.ok)) },
+                        onClick = {
+                            afterCheckManager?.invoke()
+                            afterCheckManager = null
+                        }
+                    )
+                },
+                dismissButton = {
+                    TextButton(
+                        content = { Text(stringResource(android.R.string.cancel)) },
+                        onClick = { afterCheckManager = null }
+                    )
+                },
+                text = {
+                    val managerPackageName = viewModel.appList.find { it.first.app.packageName == scopeApp }?.second?.managerPackageName
+                    var managerName = "Unknown"
+                    var s2 = "may"
+                    if (managerPackageName != null) {
+                        val pm = lspApp.packageManager
+                        runCatching {
+                            managerName = pm.getApplicationLabel(pm.getApplicationInfo(managerPackageName, 0)).toString()
+                            s2 = "must"
+                        }
+                    }
+                    Text(stringResource(R.string.manage_check_manager_package_name, "$managerName($managerPackageName)", s2))
+                }
+            )
+        }
 
         LazyColumn(Modifier.fillMaxHeight()) {
             items(
@@ -145,7 +178,7 @@ fun AppManageBody(
                 key = { it.first.app.packageName }
             ) {
                 val isRolling = it.second.useManager && it.second.lspConfig.VERSION_CODE >= Constants.MIN_ROLLING_VERSION_CODE
-                val canUpdateLoader = !isRolling && it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE
+                val canUpdateLoader = !isRolling && (it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE || it.second.managerPackageName != BuildConfig.APPLICATION_ID)
                 var expanded by remember { mutableStateOf(false) }
                 AnywhereDropdown(
                     expanded = expanded,
@@ -209,13 +242,20 @@ fun AppManageBody(
                             text = { Text(stringResource(R.string.manage_module_scope)) },
                             onClick = {
                                 expanded = false
-                                scope.launch {
-                                    scopeApp = it.first.app.packageName
-                                    val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
-                                    val initialSelected = LSPPackageManager.appList.mapNotNullTo(ArrayList()) {
-                                        if (activated.contains(it.app.packageName)) it.app.packageName else null
+                                scopeApp = it.first.app.packageName
+                                fun openSelectAppsScreen() {
+                                    scope.launch {
+                                        val activated = ConfigManager.getModulesForApp(scopeApp).map { it.pkgName }.toSet()
+                                        val initialSelected = LSPPackageManager.appList.mapNotNullTo(ArrayList()) {
+                                            if (activated.contains(it.app.packageName)) it.app.packageName else null
+                                        }
+                                        navigator.navigate(SelectAppsScreenDestination(true, initialSelected))
                                     }
-                                    navigator.navigate(SelectAppsScreenDestination(true, initialSelected))
+                                }
+                                if (it.second.managerPackageName == BuildConfig.APPLICATION_ID) {
+                                    openSelectAppsScreen()
+                                } else {
+                                    afterCheckManager = ::openSelectAppsScreen
                                 }
                             }
                         )
