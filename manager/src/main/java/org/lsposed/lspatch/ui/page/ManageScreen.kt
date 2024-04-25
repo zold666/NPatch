@@ -16,12 +16,12 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultRecipient
 import kotlinx.coroutines.launch
-import org.lsposed.lspatch.R
 import org.lsposed.lspatch.ui.component.CenterTopBar
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
 import org.lsposed.lspatch.ui.page.manage.AppManageBody
 import org.lsposed.lspatch.ui.page.manage.AppManageFab
 import org.lsposed.lspatch.ui.page.manage.ModuleManageBody
+import org.lsposed.lspatch.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Destination
@@ -65,7 +65,7 @@ fun ManageScreen(
                 HorizontalPager(count = 2, state = pagerState) { page ->
                     when (page) {
                         0 -> AppManageBody(navigator, resultRecipient)
-                        1 -> ModuleManageBody()
+                        1 -> ModuleManageBody(navigator, resultRecipient)
                     }
                 }
             }

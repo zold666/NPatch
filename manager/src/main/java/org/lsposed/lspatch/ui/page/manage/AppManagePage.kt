@@ -38,9 +38,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
-import io.github.duzhaokun123.lspatch.BuildConfig
-import io.github.duzhaokun123.lspatch.R
+import org.lsposed.lspatch.R
 import kotlinx.coroutines.launch
+import org.lsposed.lspatch.BuildConfig
 import org.lsposed.lspatch.config.ConfigManager
 import org.lsposed.lspatch.config.Configs
 import org.lsposed.lspatch.database.entity.Module
@@ -53,6 +53,7 @@ import org.lsposed.lspatch.ui.component.LoadingDialog
 import org.lsposed.lspatch.ui.page.ACTION_APPLIST
 import org.lsposed.lspatch.ui.page.ACTION_STORAGE
 import org.lsposed.lspatch.ui.page.SelectAppsResult
+import org.lsposed.lspatch.ui.page.SelectAppsType
 import org.lsposed.lspatch.ui.page.destinations.NewPatchScreenDestination
 import org.lsposed.lspatch.ui.page.destinations.SelectAppsScreenDestination
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
@@ -177,8 +178,8 @@ fun AppManageBody(
                 items = viewModel.appList,
                 key = { it.first.app.packageName }
             ) {
-                val isRolling = it.second.useManager && it.second.lspConfig.VERSION_CODE >= Constants.MIN_ROLLING_VERSION_CODE
-                val canUpdateLoader = !isRolling && (it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE || it.second.managerPackageName != BuildConfig.APPLICATION_ID)
+                val isRolling = it.second.useManager && it.second.lspConfig.SUPPORT_ROLLING == true
+                val canUpdateLoader = (!isRolling && it.second.lspConfig.VERSION_CODE < LSPConfig.instance.VERSION_CODE) || it.second.managerPackageName != BuildConfig.APPLICATION_ID
                 var expanded by remember { mutableStateOf(false) }
                 AnywhereDropdown(
                     expanded = expanded,
@@ -249,7 +250,7 @@ fun AppManageBody(
                                         val initialSelected = LSPPackageManager.appList.mapNotNullTo(ArrayList()) {
                                             if (activated.contains(it.app.packageName)) it.app.packageName else null
                                         }
-                                        navigator.navigate(SelectAppsScreenDestination(true, initialSelected))
+                                        navigator.navigate(SelectAppsScreenDestination(true, SelectAppsType.XposedModule, initialSelected))
                                     }
                                 }
                                 if (it.second.managerPackageName == BuildConfig.APPLICATION_ID) {

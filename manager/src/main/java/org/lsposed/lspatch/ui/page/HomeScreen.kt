@@ -35,7 +35,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
-import org.lsposed.lspatch.R
 import org.lsposed.lspatch.share.LSPConfig
 import org.lsposed.lspatch.ui.component.CenterTopBar
 import org.lsposed.lspatch.ui.page.destinations.ManageScreenDestination
@@ -44,6 +43,7 @@ import org.lsposed.lspatch.ui.util.HtmlText
 import org.lsposed.lspatch.ui.util.LocalSnackbarHost
 import org.lsposed.lspatch.util.ShizukuApi
 import rikka.shizuku.Shizuku
+import org.lsposed.lspatch.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RootNavGraph(start = true)
@@ -241,8 +241,7 @@ private fun SupportCard() {
             HtmlText(
                 stringResource(
                     R.string.home_view_source_code,
-                    "<b><a href=\"https://github.com/HSSkyBoy/NPatch\">GitHub</a></b>",
-                    "<b><a href=\"https://t.me/NPatch\">Telegram</a></b>"
+                    "<b><a href=\"https://github.com/duzhaokun123/LSPatch\">GitHub</a></b>"
                 )
             )
         }

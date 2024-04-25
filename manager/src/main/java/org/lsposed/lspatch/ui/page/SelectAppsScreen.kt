@@ -25,12 +25,12 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import kotlinx.parcelize.Parcelize
-import org.lsposed.lspatch.R
 import org.lsposed.lspatch.ui.component.AppItem
 import org.lsposed.lspatch.ui.component.SearchAppBar
 import org.lsposed.lspatch.ui.viewmodel.SelectAppsViewModel
 import org.lsposed.lspatch.util.LSPPackageManager
 import org.lsposed.lspatch.util.LSPPackageManager.AppInfo
+import org.lsposed.lspatch.R
 
 @Parcelize
 sealed class SelectAppsResult : Parcelable {
@@ -38,12 +38,18 @@ sealed class SelectAppsResult : Parcelable {
     data class MultipleApps(val selected: List<AppInfo>) : SelectAppsResult()
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+enum class SelectAppsType {
+    XposedModule,
+    All,
+    Managed
+}
+
 @Destination
 @Composable
 fun SelectAppsScreen(
     navigator: ResultBackNavigator<SelectAppsResult>,
     multiSelect: Boolean,
+    selectAppType: SelectAppsType,
     initialSelected: ArrayList<String>? = null
 ) {
     val viewModel = viewModel<SelectAppsViewModel>()
@@ -52,8 +58,13 @@ fun SelectAppsScreen(
     val filter: (AppInfo) -> Boolean = {
         val packageLowerCase = searchPackage.toLowerCase(Locale.current)
         val contains = it.label.toLowerCase(Locale.current).contains(packageLowerCase) || it.app.packageName.contains(packageLowerCase)
-        if (multiSelect) contains && it.isXposedModule
-        else contains && it.app.flags and ApplicationInfo.FLAG_SYSTEM == 0
+        when (selectAppType) {
+            SelectAppsType.XposedModule -> contains && it.isXposedModule
+            SelectAppsType.All -> contains && it.app.flags and ApplicationInfo.FLAG_SYSTEM == 0
+            SelectAppsType.Managed -> {
+                contains && it.isManaged
+            }
+        }
     }
 
     LaunchedEffect(Unit) {

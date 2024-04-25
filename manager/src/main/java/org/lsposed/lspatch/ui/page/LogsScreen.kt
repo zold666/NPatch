@@ -23,7 +23,7 @@ fun LogsScreen() {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            text = "此页面并未制作完成",
+            text = "This page is not yet implemented",
             textAlign = TextAlign.Center
         )
     }
