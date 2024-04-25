@@ -44,11 +44,11 @@ val (coreCommitCount, coreLatestTag) = FileRepositoryBuilder().setGitDir(rootPro
 
 val defaultManagerPackageName by extra("org.lsposed.lspatch")
 val apiCode by extra(93)
-val verCode by extra(427)
+val verCode by extra(428)
 val verName by extra("0.6.1")
 val coreVerCode by extra(coreCommitCount)
 val coreVerName by extra(coreLatestTag)
-val androidMinSdkVersion by extra(28)
+val androidMinSdkVersion by extra(27)
 val androidTargetSdkVersion by extra(34)
 val androidCompileSdkVersion by extra(34)
 val androidCompileNdkVersion by extra("25.2.9519653")
