@@ -46,11 +46,11 @@ jobs:
         repository: libxposed/service
         path: libxposed/service
 
-    - name: Setup Java
+    - name: Setup JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
-        distribution: 'temurin'
+        java-version: '21'
+        ，distribution: 'temurin' # Example of selecting AdoptOpenJDK distribution
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
