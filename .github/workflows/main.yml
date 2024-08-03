@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: 'recursive'
         fetch-depth: 0
@@ -46,11 +46,11 @@ jobs:
         repository: libxposed/service
         path: libxposed/service
 
-    - name: Setup JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '21'
-        distribution: 'temurin' # Example of selecting AdoptOpenJDK distribution
+        - name: Setup Java
+        uses: actions/setup-java@v3.6.0
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
