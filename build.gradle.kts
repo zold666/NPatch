@@ -235,3 +235,8 @@ subprojects {
         configureBaseExtension()
     }
 }
+
+dependencies {
+    implementation 'de.robv.android.xposed:api:82'
+    implementation 'de.robv.android.xposed:bridge:54'
+}
