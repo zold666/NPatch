@@ -18,7 +18,8 @@ buildscript {
     }
     dependencies {
         classpath("org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r")
-    }
+        implementation("de.robv.android.xposed:api:82")
+        implementation("de.robv.android.xposed:bridge:54")
 }
 
 val commitCount = run {
@@ -234,9 +235,4 @@ subprojects {
     plugins.withId("com.android.library") {
         configureBaseExtension()
     }
-}
-
-dependencies {
-    implementation 'de.robv.android.xposed:api:82'
-    implementation 'de.robv.android.xposed:bridge:54'
 }
