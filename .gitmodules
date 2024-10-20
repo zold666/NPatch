@@ -7,7 +7,7 @@
 	url = https://github.com/WindySha/ManifestEditor.git
 [submodule "core"]
 	path = core
-	url = https://github.com/JingMatrix/LSPosed.git
+	url = https://github.com/re-zero001/LSPosed-Irena.git
 [submodule "libxposed/api"]
 	path = libxposed/api
 	url = https://github.com/libxposed/api
