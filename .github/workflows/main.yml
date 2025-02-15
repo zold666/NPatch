@@ -85,27 +85,27 @@ jobs:
         continue-on-error: false
 
     - name: Upload Debug artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: npatch-debug
         path: out/debug/*
 
     - name: Upload Release artifact
       if: success()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: npatch-release
         path: out/release/*
 
     - name: Upload symbols
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: symbols
         path: |
           patch-loader/build/symbols
 
     - name: Upload mappings
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: mappings
         path: |
